@@ -26,7 +26,7 @@ trait BaseBlockMixin extends Block {
   val name: String
   val modId = Misc.getActiveModId
   setRegistryName(modId, name)
-  setUnlocalizedName(modId + "." + name)
+  setTranslationKey(modId + "." + name)
 
   // fuck java, fuck mojang, fuck everything!
   def getProperties = List.empty[IProperty[T] forSome {type T <: Comparable[T]}]

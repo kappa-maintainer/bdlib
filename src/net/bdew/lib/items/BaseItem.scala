@@ -20,7 +20,7 @@ trait BaseItemMixin extends Item {
   val name: String
   val modId = Misc.getActiveModId
 
-  setUnlocalizedName(modId + "." + name)
+  setTranslationKey(modId + "." + name)
   setRegistryName(modId, name)
 
   /**

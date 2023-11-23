@@ -62,10 +62,10 @@ object Texture {
 
   // From a ResourceLocation - use full file
   def apply(res: ResourceLocation) =
-    if (res.getResourcePath.endsWith(".png"))
+    if (res.getPath.endsWith(".png"))
       new Sprite(res, Rect(0, 0, 1, 1), 1)
     else // If it's not a full file name, add base path and extension like TextureMap does
-      new Sprite(new ResourceLocation(res.getResourceDomain, "textures/" + res.getResourcePath + ".png"), Rect(0, 0, 1, 1), 1)
+      new Sprite(new ResourceLocation(res.getNamespace, "textures/" + res.getPath + ".png"), Rect(0, 0, 1, 1), 1)
 
   def apply(path: String): Texture = apply(new ResourceLocation(path))
 

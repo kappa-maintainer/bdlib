@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack
 class CreativeTabContainer {
 
   class Tab(name: String, iconStack: => ItemStack) extends CreativeTabs(name) {
-    override def getTabIconItem = iconStack
+    override def createIcon = iconStack
   }
 
   BdLib.logInfo("Loaded creative tabs for %s", Misc.getActiveModId)

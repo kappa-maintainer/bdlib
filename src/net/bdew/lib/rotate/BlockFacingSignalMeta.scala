@@ -48,7 +48,7 @@ trait BlockFacingSignalMeta extends BaseBlock with BaseRotatableBlock {
 
   override def getStateFromMeta(meta: Int) =
     getDefaultState
-      .withProperty(Properties.FACING, EnumFacing.getFront(meta & 7))
+      .withProperty(Properties.FACING, EnumFacing.byIndex(meta & 7))
       .withProperty(Properties.SIGNAL, Boolean.box((meta & 8) > 0))
 
   override def getMetaFromState(state: IBlockState) = {

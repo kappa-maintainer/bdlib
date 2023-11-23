@@ -23,7 +23,7 @@ case class ItemResource(item: Item, meta: Int) extends ResourceKind {
   override def getColor: Color = Color.fromInt(Client.itemColors.colorMultiplier(makeStack(1), 0))
 
   override def getLocalizedName = item.getItemStackDisplayName(makeStack(1))
-  override def getUnlocalizedName = item.getUnlocalizedName(makeStack(1))
+  override def getTranslationKey = item.getTranslationKey(makeStack(1))
 
   override def getFormattedString(amount: Double, capacity: Double) =
     Misc.toLocalF("resource.item.format", DecFormat.dec2(amount), DecFormat.round(capacity))
@@ -32,7 +32,7 @@ case class ItemResource(item: Item, meta: Int) extends ResourceKind {
 
   def makeStack(n: Int) = new ItemStack(item, n, meta)
 
-  override def toString = "ItemResource(%s,%d)".format(getUnlocalizedName, meta)
+  override def toString = "ItemResource(%s,%d)".format(getTranslationKey, meta)
   override def helperObject = ItemResourceHelper
 }
 

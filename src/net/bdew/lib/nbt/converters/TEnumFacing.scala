@@ -14,5 +14,5 @@ import net.minecraft.util.EnumFacing
 
 object TEnumFacing extends ConvertedType[EnumFacing, Byte] {
   override def encode(v: EnumFacing) = v.getIndex.toByte
-  override def decode(v: Byte) = Some(EnumFacing.getFront(v.toInt))
+  override def decode(v: Byte) = Some(EnumFacing.byIndex(v.toInt))
 }

@@ -35,7 +35,7 @@ trait BlockFacingMeta extends BaseBlock with BaseRotatableBlock {
     getFacing(world.getBlockState(pos))
 
   override def getStateFromMeta(meta: Int) =
-    getDefaultState.withProperty(Properties.FACING, EnumFacing.getFront(meta))
+    getDefaultState.withProperty(Properties.FACING, EnumFacing.byIndex(meta))
 
   override def getMetaFromState(state: IBlockState) = {
     state.getValue(Properties.FACING).ordinal()

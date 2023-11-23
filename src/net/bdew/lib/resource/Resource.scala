@@ -19,7 +19,7 @@ trait ResourceKind {
   def getTexture: Texture
   def getColor: Color
   def getLocalizedName: String
-  def getUnlocalizedName: String
+  def getTranslationKey: String
   def getFormattedString(amount: Double, capacity: Double): String
   def capacityMultiplier: Double
   def helperObject: ResourceHelper[_ >: this.type]

@@ -28,10 +28,10 @@ object CommandDumpRegistry extends CommandBase {
 
   implicit object ResourceLocationOrdering extends Ordering[ResourceLocation] {
     override def compare(x: ResourceLocation, y: ResourceLocation) =
-      if (x.getResourceDomain == y.getResourceDomain)
-        x.getResourcePath.compareTo(x.getResourcePath)
+      if (x.getNamespace == y.getNamespace)
+        x.getPath.compareTo(x.getPath)
       else
-        x.getResourceDomain.compareTo(x.getResourceDomain)
+        x.getNamespace.compareTo(x.getNamespace)
   }
 
   def sanitize(x: IForgeRegistryEntry[_]): Option[String] = {
@@ -39,10 +39,10 @@ object CommandDumpRegistry extends CommandBase {
       x match {
         case item: Item =>
           BdLib.logWarn("Item with null name in registry! Key=%s Unlocalized=%s Class=%s",
-            Item.REGISTRY.getNameForObject(item), item.getUnlocalizedName, x.getClass.getName)
+            Item.REGISTRY.getNameForObject(item), item.getTranslationKey, x.getClass.getName)
         case block: Block =>
           BdLib.logWarn("Block with null name in registry! Key=%s Unlocalized=%s Class=%s",
-            Block.REGISTRY.getNameForObject(block), block.getUnlocalizedName, x.getClass.getName)
+            Block.REGISTRY.getNameForObject(block), block.getTranslationKey, x.getClass.getName)
         case _ => BdLib.logWarn("Entry with null name in registry! Class=%s", x.getClass.getName)
       }
       None
