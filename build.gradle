@@ -1,145 +1,149 @@
-buildscript {
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+plugins {
+    id 'scala'
+    id 'java-library'
+    id 'maven-publish'
+    id 'xyz.wagyourtail.unimined' version '1.4.26-kappa'
+    id 'net.kyori.blossom' version '2.2.0'
+}
+
+version = mod_version
+group = root_package
+
+base {
+    archivesName = mod_id
+}
+
+scala {
+    scalaVersion = '3.8.4'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
     }
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            name = "gradle plugins"
-            url = "https://plugins.gradle.org/m2/"
+    withSourcesJar()
+}
+
+configurations {
+    modCompileOnly
+    compileOnly.extendsFrom(modCompileOnly)
+    modRuntimeOnly
+    runtimeOnly.extendsFrom(modRuntimeOnly)
+}
+
+unimined.minecraft {
+    version '1.12.2'
+
+    mappings {
+        mcp('stable', '39-1.12')
+    }
+
+    cleanroom {
+        loader '0.5.17-alpha'
+        runs.all {
+            args += ['--username', minecraft_username]
+            def trimmedJvmArgs = extra_jvm_args?.trim()
+            if (trimmedJvmArgs) {
+                jvmArgs += trimmedJvmArgs.split(/\s+/).toList()
+            }
+            if (enable_foundation_debug.toBoolean()) {
+                systemProperty 'foundation.dump', 'true'
+                systemProperty 'foundation.verbose', 'true'
+            }
         }
     }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.9"
+
+    defaultRemapJar = false
+    remap(tasks.named('jar').get())
+    mods {
+        remap(configurations.modCompileOnly)
+        remap(configurations.modRuntimeOnly)
     }
 }
 
-apply plugin: 'scala'
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'com.matthewprenger.cursegradle'
-
-file "build.properties" withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
+repositories {
+    maven {
+        name = 'Cleanroom'
+        url = 'https://maven.cleanroommc.com'
+    }
+    mavenCentral()
 }
 
-if (project.hasProperty('forgeOverride')) {
-    config.forge.version = forgeOverride
+dependencies {
+    implementation 'org.scala-lang.modules:scala-parser-combinators_3:2.4.0'
+    compileOnly 'com.cleanroommc:sponge-mixin:0.20.13+mixin.0.8.7'
+    if (enable_lwjglx.toBoolean()) {
+        compileOnly 'com.cleanroommc:lwjglx:1.0.0'
+    }
+    modRuntimeOnly 'com.cleanroommc:scalar:1.0.0'
 }
-
-if (project.hasProperty('buildnum')) {
-    ext.simpleVersion = "${config.bdlib.version}.${project.buildnum}"
-} else {
-    ext.simpleVersion = "${config.bdlib.version}-DEV"
-}
-
-version = simpleVersion + '-mc' + config.minecraft.version
-
-group = "net.bdew"
-archivesBaseName = "bdlib"
-
-minecraft {
-    version = "${config.minecraft.version}-${config.forge.version}"
-    mappings = "${config.minecraft.mappings}"
-    makeObfSourceJar = false
-    runDir = "run"
-    replace("BDLIB_VER", simpleVersion.toString())
-}
-
-import org.apache.tools.ant.filters.ReplaceTokens
-
 
 sourceSets {
     main {
-        scala {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'resources'
+        blossom {
+            scalaSources {
+                property('mod_version', mod_version)
+            }
+            resources {
+                property('mod_id', mod_id)
+                property('mod_name', mod_name)
+                property('mod_version', mod_version)
+                property('mod_description', mod_description)
+                property('mod_authors', mod_authors.split(',').findAll { !it.isBlank() }.collect { "\"${it.strip()}\"" }.join(', '))
+                property('mod_credits', mod_credits)
+                property('mod_url', mod_url)
+                property('mod_update_json', mod_update_json)
+                property('mod_logo_path', mod_logo_path)
+            }
         }
     }
 }
 
 processResources {
-    inputs.property "tokens", minecraft.replacements
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        filter(ReplaceTokens, tokens: minecraft.replacements)
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+compileJava {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(ScalaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    archiveClassifier = 'dev'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes('ModType': 'CRL')
     }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+    finalizedBy(tasks.named('remapJar').get())
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier "dev"
+tasks.named('remapJar').configure {
+    archiveClassifier = 'universal'
 }
-
-task sourceJarReal(type: Jar) {
-    // FG has a task named sourceJar that seems to be borked
-    classifier "sources"
-}
-
-afterEvaluate { project ->
-    // Use sources after replacements
-    tasks.getByPath(":sourceJarReal").from(tasks.getByPath(":sourceMainScala").outputs.files)
-}
-
-artifacts {
-    archives sourceJarReal
-    archives deobfJar
-}
-
-apply plugin: 'maven-publish'
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            artifact deobfJar
-            artifact sourceJarReal
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact tasks.named('remapJar').get()
+            groupId = root_package
+            artifactId = mod_id
         }
     }
-    repositories {
-        maven {
-            url "file://var/www/maven"
-        }
-    }
-}
-
-curseforge {
-    apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
-    project {
-        id = config.curseforge.id
-
-        releaseType = "alpha"
-        changelog = project.hasProperty("changelog") ? project.changelog : "No changelog available"
-
-        addGameVersion config.minecraft.version
-        addGameVersion "1.12"
-        addGameVersion "1.12.1"
-
-        mainArtifact(jar) {
-            displayName = "BDLib ${simpleVersion} (MC ${config.minecraft.version})"
-        }
-
-        addArtifact(deobfJar) {
-            displayName = "BDLib ${simpleVersion} Deobfuscated (MC ${config.minecraft.version})"
-        }
-
-        addArtifact(sourceJarReal) {
-            displayName = "BDLib ${simpleVersion} Source (MC ${config.minecraft.version})"
+    if (publish_to_maven.toBoolean()) {
+        repositories {
+            maven {
+                name = maven_name.replaceAll('\\s', '')
+                url = maven_url
+                credentials(PasswordCredentials)
+            }
         }
     }
 }

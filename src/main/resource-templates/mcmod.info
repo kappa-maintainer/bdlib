@@ -1,0 +1,23 @@
+[
+{
+  "modid": "{{ mod_id }}",
+  "name": "{{ mod_name }}",
+  "description": "{{ mod_description }}",
+  "version": "{{ mod_version }}",
+  "mcversion": "1.12.2",
+  "url": "{{ mod_url }}",
+  "updateUrl": "{{ mod_update_json }}",
+  "authorList": [{{ mod_authors }}],
+  "credits": "{{ mod_credits }}",
+  "logoFile": "{{ mod_logo_path }}",
+  "screenshots": [],
+  "parent": "",
+  "requiredMods": [
+    "cleanroom@[0.5.17-alpha,)",
+    "scalar@[1.0.0,)"
+  ],
+  "dependencies": [],
+  "dependants": [],
+  "useDependencyInformation": true
+}
+]
