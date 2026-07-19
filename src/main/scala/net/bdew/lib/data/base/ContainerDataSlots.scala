@@ -15,13 +15,15 @@ import net.minecraft.inventory.IContainerListener
 
 trait ContainerDataSlots extends NoInvContainer {
   val dataSource: TileDataSlots
-  var lastSentChange = dataSource.lastChange
+  var lastSentChange = 0L
 
   override def addListener(crafter: IContainerListener): Unit = {
     super.addListener(crafter)
-    if (crafter.isInstanceOf[EntityPlayerMP]) {
-      val pkt = dataSource.getDataSlotPacket
-      crafter.asInstanceOf[EntityPlayerMP].connection.sendPacket(pkt)
+    crafter match {
+      case p: EntityPlayerMP =>
+        val pkt = dataSource.getDataSlotPacket
+        p.connection.sendPacket(pkt)
+      case _ =>
     }
   }
 
@@ -37,5 +39,5 @@ trait ContainerDataSlots extends NoInvContainer {
     }
   }
 
-  override def canInteractWith(player: EntityPlayer) = dataSource.isEntityInRange(player, 64D)
+  override def canInteractWith(player: EntityPlayer): Boolean = dataSource.isEntityInRange(player, 64D)
 }
