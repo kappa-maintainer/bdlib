@@ -143,7 +143,6 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             artifact tasks.named('remapJar').get()
-            artifact sourcesJar
             groupId = root_package
             artifactId = mod_id
         }

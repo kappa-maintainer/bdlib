@@ -69,9 +69,9 @@ trait SensorOutput extends GenericSensorType[TileEntity, Boolean] {
             system.DisabledParameter
         case (_, x: CIOutputFaces) =>
           if (button == 0)
-            x.outputFaces.map.values.toList.sorted.headOption map SensorOutputFlowParameter getOrElse system.DisabledParameter
+            x.outputFaces.map.values.toList.sorted.headOption.map(SensorOutputFlowParameter.apply).getOrElse(system.DisabledParameter)
           else
-            x.outputFaces.map.values.toList.sorted.reverse.headOption map SensorOutputFlowParameter getOrElse system.DisabledParameter
+            x.outputFaces.map.values.toList.sorted.reverse.headOption.map(SensorOutputFlowParameter.apply).getOrElse(system.DisabledParameter)
         case _ =>
           system.DisabledParameter
       }

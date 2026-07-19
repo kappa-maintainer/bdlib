@@ -42,7 +42,7 @@ class RecipeMatcher(inv: InventoryCrafting) {
       */
     def matchLeft = at(x - 1, y)
 
-    def matchAdjacent = matchAbove or matchBelow or matchLeft or matchRight
+    def matchAdjacent = matchAbove `or` matchBelow `or` matchLeft `or` matchRight
 
     /**
       * @return a search rule that matches the same stack

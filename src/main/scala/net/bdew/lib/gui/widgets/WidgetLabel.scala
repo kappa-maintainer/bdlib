@@ -12,7 +12,7 @@ package net.bdew.lib.gui.widgets
 import net.bdew.lib.gui.{Color, Point, Rect}
 
 class WidgetLabel(text: String, x: Int, y: Int, color: Color) extends Widget {
-  val rect = new Rect(x, y, 0, 0)
+  val rect = new Rect(x.toFloat, y.toFloat, 0, 0)
   override def draw(mouse: Point, partial: Float): Unit = {
     parent.drawText(text, rect.origin, color, false)
   }

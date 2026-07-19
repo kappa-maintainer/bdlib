@@ -30,13 +30,13 @@ trait BaseBlockMixin extends Block {
 
   // fuck java, fuck mojang, fuck everything!
   def getProperties: List[IProperty[? <: Comparable[?]]] = List.empty
-  def getUnlistedProperties = List.empty[IUnlistedProperty[_]]
+  def getUnlistedProperties = List.empty[IUnlistedProperty[?]]
 
   final override def createBlockState(): BlockStateContainer = {
     val normal = getProperties
     val unlisted = getUnlistedProperties
     if (unlisted.isEmpty) {
-      new BlockStateContainer(this, normal.toSeq: _*)
+      new BlockStateContainer(this, normal.toSeq*)
     } else {
       new ExtendedBlockState(this, normal.toArray, unlisted.toArray)
     }

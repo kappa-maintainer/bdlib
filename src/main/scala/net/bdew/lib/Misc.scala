@@ -40,7 +40,7 @@ object Misc {
 
   def flattenRecipe(pattern: Seq[String], items: Map[Char, AnyRef]) =
     pattern.map(_.replace('_', ' ')) ++ items.flatMap {
-      case (k, v) => Seq(new Character(k), v)
+      case (k, v) => Seq(Character.valueOf(k), v)
     }
 
   def wrapTag(n: String, f: (NBTTagCompound) => Any)(t: NBTTagCompound): Unit = {

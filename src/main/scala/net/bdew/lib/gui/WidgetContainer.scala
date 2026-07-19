@@ -78,5 +78,5 @@ class WidgetContainerWindow(val parent: BaseScreen, xSz: Int, ySz: Int) extends 
   def getZLevel = parent.getZLevel
   def getFontRenderer = parent.getFontRenderer
   def getOffsetFromWindow = Point(0, 0)
-  val rect = Rect(0, 0, xSz, ySz)
+  val rect = Rect(0, 0, xSz.toFloat, ySz.toFloat)
 }

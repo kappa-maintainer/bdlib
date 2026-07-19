@@ -26,5 +26,5 @@ object Async {
     p.future
   }
 
-  def inServerThread[T](f: => T) = Future(f)(ServerTickExecutionContext)
+  def inServerThread[T](f: => T) = Future(f)(using ServerTickExecutionContext)
 }

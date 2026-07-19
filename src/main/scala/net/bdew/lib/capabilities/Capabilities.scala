@@ -17,11 +17,11 @@ import scala.annotation.meta.setter
 
 object Capabilities {
   @(CapabilityInject@setter)(classOf[IFluidHandler])
-  var CAP_FLUID_HANDLER: Capability[IFluidHandler] = _
+  var CAP_FLUID_HANDLER: Capability[IFluidHandler] = scala.compiletime.uninitialized
 
   @(CapabilityInject@setter)(classOf[IFluidHandlerItem])
-  var CAP_FLUID_HANDLER_ITEM: Capability[IFluidHandlerItem] = _
+  var CAP_FLUID_HANDLER_ITEM: Capability[IFluidHandlerItem] = scala.compiletime.uninitialized
 
   @(CapabilityInject@setter)(classOf[IItemHandler])
-  var CAP_ITEM_HANDLER: Capability[IItemHandler] = _
+  var CAP_ITEM_HANDLER: Capability[IItemHandler] = scala.compiletime.uninitialized
 }

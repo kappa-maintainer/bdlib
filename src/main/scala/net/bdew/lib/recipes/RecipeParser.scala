@@ -50,10 +50,10 @@ class RecipeParser extends JavaTokenParsers {
 
   // === Item references ===
 
-  def specOD = "OD" ~> ":" ~> ident ^^ StackOreDict
+  def specOD = "OD" ~> ":" ~> ident ^^ StackOreDict.apply
   def specBlock = "B" ~> ":" ~> maybeModId ~ str ~ maybeMeta ^^ { case m ~ n ~ i => StackBlock(m, n, i) }
   def specItem = "I" ~> ":" ~> maybeModId ~ str ~ maybeMeta ^^ { case m ~ n ~ i => StackItem(m, n, i) }
-  def specMacro = "$" ~> recipeChar ^^ StackMacro
+  def specMacro = "$" ~> recipeChar ^^ StackMacro.apply
 
   def specReflect = clsPath ~ ("[" ~> ident <~ "]") ~ maybeMeta ^^ {
     case (p ~ cl) ~ id ~ m => StackReflect((p :+ cl).mkString("."), id, m)
@@ -70,11 +70,11 @@ class RecipeParser extends JavaTokenParsers {
 
   // === Conditions ===
 
-  def cndHaveMod = "HaveMod" ~> str ^^ CndHaveMod
-  def cndHaveAPI = "HaveAPI" ~> str ^^ CndHaveAPI
-  def cndHaveOD = "HaveOD" ~> str ^^ CndHaveOD
+  def cndHaveMod = "HaveMod" ~> str ^^ CndHaveMod.apply
+  def cndHaveAPI = "HaveAPI" ~> str ^^ CndHaveAPI.apply
+  def cndHaveOD = "HaveOD" ~> str ^^ CndHaveOD.apply
 
-  def cndNOT = "!" ~> condition ^^ CndNOT
+  def cndNOT = "!" ~> condition ^^ CndNOT.apply
   def cndOR = "(" ~> condition ~ "||" ~ condition <~ ")" ^^ { case c1 ~ or ~ c2 => CndOR(c1, c2) }
   def cndAND = "(" ~> condition ~ "&&" ~ condition <~ ")" ^^ { case c1 ~ and ~ c2 => CndAND(c1, c2) }
 
@@ -82,8 +82,8 @@ class RecipeParser extends JavaTokenParsers {
 
   // === Blocks ===
 
-  def recipesSubBlock = "recipes" ~> ("{" ~> recipeStatements <~ "}") ^^ RsRecipes
-  def recipesTopBlock = "recipes" ~> ("{" ~> recipeStatements <~ "}") ^^ CsRecipeBlock
+  def recipesSubBlock = "recipes" ~> ("{" ~> recipeStatements <~ "}") ^^ RsRecipes.apply
+  def recipesTopBlock = "recipes" ~> ("{" ~> recipeStatements <~ "}") ^^ CsRecipeBlock.apply
 
   def conditionRecipes = "if" ~> condition ~ ("{" ~> recipeStatements <~ "}") ~ ("else" ~> "{" ~> recipeStatements <~ "}").? ^^ {
     case cond ~ thn ~ els => RsConditional(cond, thn, els.getOrElse(List.empty))
@@ -129,7 +129,7 @@ class RecipeParser extends JavaTokenParsers {
     case spec ~ wildcard ~ id => RsRegOredict(id, spec, wildcard.isDefined)
   }
 
-  def clearRecipes = "clearRecipes" ~> ":" ~> spec ^^ CsClearRecipes
+  def clearRecipes = "clearRecipes" ~> ":" ~> spec ^^ CsClearRecipes.apply
 
   def recipeStatement: Parser[RecipeStatement] = (
     charSpec
@@ -157,8 +157,8 @@ class RecipeParser extends JavaTokenParsers {
 
   def doParse(r: Reader): List[ConfigStatement] = {
     parseAll(configStatements, r) match {
-      case Success(res, next) => return res
-      case NoSuccess(msg, next) => sys.error("Config parsing failed at %s: %s".format(next.pos, msg))
+      case Success(res, _) => res
+      case failure: NoSuccess => sys.error("Config parsing failed at %s: %s".format(failure.next.pos, failure.msg))
     }
   }
 }

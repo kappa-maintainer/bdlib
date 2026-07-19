@@ -14,5 +14,5 @@ import net.minecraftforge.common.capabilities.{Capability, ICapabilityProvider}
 
 object NullCapabilityProvider extends ICapabilityProvider {
   override def getCapability[T](capability: Capability[T], facing: EnumFacing): T = null.asInstanceOf[T]
-  override def hasCapability(capability: Capability[_], facing: EnumFacing): Boolean = false
+  override def hasCapability(capability: Capability[?], facing: EnumFacing): Boolean = false
 }

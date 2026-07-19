@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.network.{FMLEmbeddedChannel, FMLOutboundHan
 import net.minecraftforge.fml.relauncher.Side
 
 class NetChannel(val name: String) {
-  var channels: util.EnumMap[Side, FMLEmbeddedChannel] = _
+  var channels: util.EnumMap[Side, FMLEmbeddedChannel] = scala.compiletime.uninitialized
 
   type Message = BaseMessage[this.type]
 
@@ -92,7 +92,7 @@ class NetChannel(val name: String) {
 
   def sendToDimension(message: Message, dimensionId: Int): Unit = {
     channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION)
-    channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new Integer(dimensionId))
+    channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(Int.box(dimensionId))
     channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE)
   }
 

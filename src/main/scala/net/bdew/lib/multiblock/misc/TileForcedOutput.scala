@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 trait TileForcedOutput extends TileModule {
-  this: TileOutput[_] =>
+  this: TileOutput[?] =>
 
   val forcedSides = EnumFacing.values().map(f => f -> DataSlotBoolean("forced_" + f.name(), this, false).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE)).toMap
 
@@ -38,7 +38,7 @@ trait TileForcedOutput extends TileModule {
 }
 
 trait BlockForcedOutput extends Block {
-  this: BlockModule[_ <: TileForcedOutput] =>
+  this: BlockModule[? <: TileForcedOutput] =>
 
   override def rotateBlock(world: World, pos: BlockPos, axis: EnumFacing): Boolean = {
     getTE(world, pos).switchSideForced(axis)

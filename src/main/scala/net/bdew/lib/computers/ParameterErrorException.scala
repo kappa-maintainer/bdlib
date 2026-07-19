@@ -9,4 +9,4 @@
 
 package net.bdew.lib.computers
 
-case class ParameterErrorException(params: CallParam[_]*) extends ComputerException("Expected parameters: " + params.map(_.name).mkString(", "))
+case class ParameterErrorException(params: CallParam[?]*) extends ComputerException("Expected parameters: " + params.map(_.name).mkString(", "))

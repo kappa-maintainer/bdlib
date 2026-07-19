@@ -43,7 +43,7 @@ trait SimpleDrawTarget extends DrawTarget {
 
   def drawText(text: String, p: Point, color: Color, shadow: Boolean) = {
     color.activate()
-    getFontRenderer.drawString(text, p.x.round, p.y.round, color.asARGB, shadow)
+    getFontRenderer.drawString(text, p.x.round.toFloat, p.y.round.toFloat, color.asARGB, shadow)
   }
 
   def drawTextMultiline(text: String, r: Rect, color: Color) = {

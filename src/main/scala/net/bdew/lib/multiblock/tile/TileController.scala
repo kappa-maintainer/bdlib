@@ -36,7 +36,7 @@ trait TileController extends TileDataSlotsTicking {
 
   def getModuleBlocks[T: ClassTag]: Map[BlockPos, T] = modules.flatMap(pos => getWorld.getBlockSafe[T](pos) map (pos -> _)).toMap
 
-  def getModulePositions(block: BlockModule[_]): Set[BlockPos] = modules.filter(pos => getWorld.getBlockState(pos).getBlock == block).toSet
+  def getModulePositions(block: BlockModule[?]): Set[BlockPos] = modules.filter(pos => getWorld.getBlockState(pos).getBlock == block).toSet
 
   def onModulesChanged(): Unit
   def onClick(player: EntityPlayer): Unit

@@ -5,7 +5,7 @@ import net.bdew.lib.BdLib
 import java.io.{InputStream, InvalidClassException, ObjectInputStream, ObjectStreamClass}
 
 class SafeObjectInputStream(is: InputStream) extends ObjectInputStream(is) {
-  override def resolveClass(desc: ObjectStreamClass): Class[_] = {
+  override def resolveClass(desc: ObjectStreamClass): Class[?] = {
     if (SafeObjectInputStream.validClasses.contains(desc.getName)) {
       super.resolveClass(desc)
     } else {

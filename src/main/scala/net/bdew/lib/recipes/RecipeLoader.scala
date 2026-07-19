@@ -50,7 +50,7 @@ class RecipeLoader {
   /**
     * Triggers an error with formatted string
     */
-  def error(msg: String, params: Any*) = throw new StatementError(msg.format(params: _*))
+  def error(msg: String, params: Any*) = throw new StatementError(msg.format(params*))
 
   /**
     * List of unprocessed recipe statements
@@ -311,7 +311,7 @@ class RecipeLoader {
         resStack.setItemDamage(0)
       }
 
-      registerRecipe(new ShapedOreRecipe(new ResourceLocation(Misc.getActiveModId, "net.bdew.gendustry.recipes"), resStack, Misc.flattenRecipe(rec, comp): _*))
+      registerRecipe(new ShapedOreRecipe(new ResourceLocation(Misc.getActiveModId, "net.bdew.gendustry.recipes"), resStack, Misc.flattenRecipe(rec, comp)*))
 
       BdLib.logDebug("Done... result=%s", resStack)
 
@@ -326,7 +326,7 @@ class RecipeLoader {
         resStack.setItemDamage(0)
       }
 
-      registerRecipe(new ShapelessOreRecipe(new ResourceLocation(Misc.getActiveModId, "net.bdew.gendustry.recipes"), resStack, recTrans: _*))
+      registerRecipe(new ShapelessOreRecipe(new ResourceLocation(Misc.getActiveModId, "net.bdew.gendustry.recipes"), resStack, recTrans*))
 
       BdLib.logDebug("Done... result=%s", resStack)
 

@@ -34,8 +34,8 @@ class BlockManager(creativeTab: CreativeTabs) {
 
     block.setCreativeTab(creativeTab)
 
-    if (block.isInstanceOf[HasTE[_]] && !skipTileEntityReg)
-      GameRegistry.registerTileEntity(block.asInstanceOf[HasTE[_]].TEClass, block.getRegistryName.toString)
+    if (block.isInstanceOf[HasTE[?]] && !skipTileEntityReg)
+      GameRegistry.registerTileEntity(block.asInstanceOf[HasTE[?]].TEClass, block.getRegistryName.toString)
 
     if (FMLCommonHandler.instance().getSide.isClient && block.isInstanceOf[BaseBlockMixin]) {
       block.asInstanceOf[BaseBlockMixin].registerItemModels()

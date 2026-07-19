@@ -20,8 +20,8 @@ class WidgetButtonIcon(p: Point, clicked: WidgetButtonIcon => Unit, baseTex: Tex
   val rect = new Rect(p, 16, 16)
   val iconRect = new Rect(p + (1, 1), 14, 14)
 
-  var icon: Texture = _
-  var hover: String = _
+  var icon: Texture = scala.compiletime.uninitialized
+  var hover: String = scala.compiletime.uninitialized
 
   override def draw(mouse: Point, partial: Float): Unit = {
     if (rect.contains(mouse))

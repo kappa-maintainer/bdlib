@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-abstract class TileRedstoneSensorModule(val system: RedstoneSensors[TileEntity], block: BlockRedstoneSensorModule[_]) extends TileModule with TileTicking {
+abstract class TileRedstoneSensorModule(val system: RedstoneSensors[TileEntity], block: BlockRedstoneSensorModule[?]) extends TileModule with TileTicking {
   override val kind = "Sensor"
   override def getCore = getCoreAs[CIRedstoneSensors]
 

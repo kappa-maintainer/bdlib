@@ -34,7 +34,7 @@ object CommandDumpRegistry extends CommandBase {
         x.getNamespace.compareTo(y.getNamespace)
   }
 
-  def sanitize(x: IForgeRegistryEntry[_]): Option[String] = {
+  def sanitize(x: IForgeRegistryEntry[?]): Option[String] = {
     Option(x.getRegistryName) orElse {
       x match {
         case item: Item =>
@@ -73,7 +73,7 @@ object CommandDumpRegistry extends CommandBase {
       dumpWriter.write("\n\n")
 
       dumpWriter.write("==== FLUIDS ====\n")
-      dumpWriter.write(FluidRegistry.getRegisteredFluids.asScala.map(_._1).toList.sorted.mkString("\n"))
+      dumpWriter.write(FluidRegistry.getRegisteredFluids.asScala.keys.toList.sorted.mkString("\n"))
       dumpWriter.write("\n\n")
 
       CommandBase.notifyCommandListener(sender, this, "Registry dumped to " + dumpFile.getCanonicalPath)

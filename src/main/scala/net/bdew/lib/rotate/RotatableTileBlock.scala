@@ -19,7 +19,7 @@ import net.minecraft.world.{IBlockAccess, World}
   * Stores rotation data in tile entity. The TE should implement [[RotatableTile]]
   */
 trait RotatableTileBlock extends BaseRotatableBlock with ITileEntityProvider {
-  self: HasTE[_ <: RotatableTile] =>
+  self: HasTE[? <: RotatableTile] =>
 
   override def setFacing(world: World, pos: BlockPos, facing: EnumFacing) = {
     getTE(world, pos).rotation := facing

@@ -35,7 +35,7 @@ abstract class SimpleResultConverter extends ResultConverter {
     case ResDouble(v) => Double.box(v)
     case ResBoolean(v) => Boolean.box(v)
     case ResString(v) => v
-    case ResMap(v) => v.mapValues(encode).asJava
+    case ResMap(v) => v.view.mapValues(encode).toMap.asJava
     case ResList(v) => v.zipWithIndex.map({ case (vv, kk) => kk + 1 -> encode(vv) }).toMap.asJava
     case ResFuture(v) => handleFuture(v)
     case Null => null

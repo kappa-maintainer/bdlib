@@ -16,7 +16,7 @@ import scala.collection.IterableOnce
 object NonNullHelper {
   def toNonNullList[T](input: IterableOnce[T]): NonNullList[T] = {
     val list = NonNullList.create[T]()
-    input.foreach(x => if (x != null) list.add(x))
+    input.iterator.foreach(x => if (x != null) list.add(x))
     list
   }
 }

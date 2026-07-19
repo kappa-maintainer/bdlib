@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 trait BreakableInventoryBlock extends Block {
-  this: HasTE[_ <: BreakableInventoryTile] =>
+  this: HasTE[? <: BreakableInventoryTile] =>
 
   override def breakBlock(world: World, pos: BlockPos, state: IBlockState) = {
     if (!world.isRemote) {

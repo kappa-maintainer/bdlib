@@ -17,7 +17,7 @@ import net.bdew.lib.multiblock.block.BlockModule
 import net.bdew.lib.recipes.gencfg.ConfigSection
 
 class MachineManager(val tuning: ConfigSection, guiHandler: GuiHandler, blocks: BlockManager) {
-  def registerMachine[R <: Machine[_]](machine: R): R = {
+  def registerMachine[R <: Machine[?]](machine: R): R = {
     machine.tuning = tuning.getSection(machine.name)
     if (machine.tuning.getBoolean("Enabled")) {
       machine.enabled = true
@@ -34,7 +34,7 @@ class MachineManager(val tuning: ConfigSection, guiHandler: GuiHandler, blocks: 
 trait MachineManagerMultiblock extends MachineManager {
   var controllers = Set.empty[MachineCore]
 
-  override def registerMachine[R <: Machine[_]](machine: R): R = {
+  override def registerMachine[R <: Machine[?]](machine: R): R = {
     super.registerMachine(machine)
     if (machine.enabled) {
       Misc.asInstanceOpt(machine, classOf[MachineCore]) foreach { controllerMachine =>
@@ -45,7 +45,7 @@ trait MachineManagerMultiblock extends MachineManager {
     machine
   }
 
-  def getMachinesForBlock(b: BlockModule[_]): Map[MachineCore, (Int, Int)] = {
+  def getMachinesForBlock(b: BlockModule[?]): Map[MachineCore, (Int, Int)] = {
     (for (machine <- controllers; max <- machine.modules.get(b.kind)) yield {
       machine -> (machine.required.getOrElse(b.kind, 0), max)
     }).toMap

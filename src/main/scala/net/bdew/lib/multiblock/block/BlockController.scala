@@ -27,7 +27,7 @@ import net.minecraft.world.{IBlockAccess, World}
 abstract class BlockController[T <: TileController](name: String, material: Material, val TEClass: Class[T])
   extends BaseBlock(name, material) with HasTE[T] with ConnectedTextureBlock with BlockTooltip {
 
-  var machine: MachineCore = _
+  var machine: MachineCore = scala.compiletime.uninitialized
 
   def resources: ResourceProvider
 

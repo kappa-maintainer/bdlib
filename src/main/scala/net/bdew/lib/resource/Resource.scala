@@ -22,7 +22,7 @@ trait ResourceKind {
   def getUnlocalizedName: String
   def getFormattedString(amount: Double, capacity: Double): String
   def capacityMultiplier: Double
-  def helperObject: ResourceHelper[_ >: this.type]
+  def helperObject: ResourceHelper[? >: this.type]
   // Type bound is required because some co(ntra)variance bullshit that i don't fully understand
 }
 
@@ -32,7 +32,7 @@ abstract class ResourceHelper[T <: ResourceKind](val id: String) {
 }
 
 object ResourceManager {
-  var resourceHelpers = Map.empty[String, ResourceHelper[_ <: ResourceKind]]
+  var resourceHelpers = Map.empty[String, ResourceHelper[? <: ResourceKind]]
   def register[T <: ResourceKind](helper: ResourceHelper[T]) = resourceHelpers += helper.id -> helper
 
   register(FluidResourceHelper)

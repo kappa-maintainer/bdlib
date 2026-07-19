@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler
 import net.minecraftforge.fluids.{Fluid, FluidStack, FluidTank, IFluidTank}
 
 abstract class DataSlotTankBase(sz: Int) extends FluidTank(sz) with IFluidTank with IFluidHandler with DataSlotTicking {
-  var oldStack: FluidStack = _
+  var oldStack: FluidStack = scala.compiletime.uninitialized
 
   updateKind = Set(UpdateKind.GUI, UpdateKind.SAVE)
 

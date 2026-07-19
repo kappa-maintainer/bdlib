@@ -56,5 +56,5 @@ object ChatHelper {
   implicit def pimpITextComponent(v: ITextComponent): RichChatComponent = new RichChatComponent(v)
 
   def C(s: String) = new TextComponentString(s)
-  def L(s: String, params: ITextComponent*) = new TextComponentTranslation(s, params: _*)
+  def L(s: String, params: ITextComponent*) = new TextComponentTranslation(s, params*)
 }

@@ -17,13 +17,13 @@ case class Quad(vertexes: List4[Vertex], face: EnumFacing) {
   /**
     * Applies a transformation function to the quad
     */
-  def transform(f: (Vertex) => Vertex) = copy(vertexes = vertexes map f)
+  def transform(f: (Vertex) => Vertex) = copy(vertexes = vertexes `map` f)
 
   /**
     * Applies a transformation to the vertexes, leaving other data untouched
     */
   def applyTransformation(t: ITransformation) = copy(
-    vertexes map (_.applyTransformation(t))
+    vertexes `map` (_.applyTransformation(t))
     , face = t.rotate(face)
   )
 
@@ -50,13 +50,13 @@ case class TQuad(vertexes: List4[TVertex], face: EnumFacing, sprite: TextureAtla
   /**
     * Applies a transformation function to the quad
     */
-  def transform(f: (TVertex) => TVertex) = copy(vertexes = vertexes map f)
+  def transform(f: (TVertex) => TVertex) = copy(vertexes = vertexes `map` f)
 
   /**
     * Applies a transformation to the vertexes, leaving other data untouched
     */
   def applyTransformation(t: ITransformation) = copy(
-    vertexes map (_.applyTransformation(t))
+    vertexes `map` (_.applyTransformation(t))
     , face = t.rotate(face)
   )
 }

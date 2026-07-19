@@ -16,7 +16,7 @@ import net.minecraftforge.common.capabilities.{Capability, ICapabilityProvider}
   * Mix in for defining capabilities in a nicer, type safe way
   */
 trait CapabilityProvider extends ICapabilityProvider {
-  private[capabilities] var caps = Map.empty[Capability[_], PartialFunction[EnumFacing, _]].withDefaultValue(PartialFunction.empty)
+  private[capabilities] var caps = Map.empty[Capability[?], PartialFunction[EnumFacing, ?]].withDefaultValue(PartialFunction.empty)
 
   /**
     * Add capability (using Partial Function)
@@ -53,7 +53,7 @@ trait CapabilityProvider extends ICapabilityProvider {
     else
       super.getCapability(capability, facing)
 
-  final abstract override def hasCapability(capability: Capability[_], facing: EnumFacing): Boolean =
+  final abstract override def hasCapability(capability: Capability[?], facing: EnumFacing): Boolean =
     if (caps != null)
       caps(capability).isDefinedAt(facing) || super.hasCapability(capability, facing)
     else

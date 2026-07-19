@@ -14,10 +14,10 @@ import net.bdew.lib.multiblock.block.BlockController
 import net.bdew.lib.recipes.gencfg.{ConfigSection, EntryDouble}
 
 trait MachineCore {
-  this: Machine[_ <: BlockController[_]] =>
+  this: Machine[? <: BlockController[?]] =>
   var tuning: ConfigSection
 
-  def getController: BlockController[_] = block
+  def getController: BlockController[?] = block
 
   def cfgSectionToMap(name: String) = this.tuning.getSection(name).map({
     case (n, EntryDouble(v)) => n -> v.toInt

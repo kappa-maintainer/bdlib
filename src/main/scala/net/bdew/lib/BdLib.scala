@@ -19,25 +19,25 @@ import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPreInitia
 import net.minecraftforge.fml.common.{FMLCommonHandler, Mod}
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = "bdlib", name = "BD lib", version = "{{ mod_version }}", modLanguage = "scala", acceptedMinecraftVersions = "[1.12,1.12.2]")
+@Mod(modid = "bdlib", name = "BD lib", version = Reference.Version, modLanguage = "scala", acceptedMinecraftVersions = "[1.12,1.12.2]")
 object BdLib {
-  var log: Logger = _
+  var log: Logger = scala.compiletime.uninitialized
 
-  def logDebug(msg: String, args: Any*) = log.debug(msg.format(args: _*))
-  def logInfo(msg: String, args: Any*) = log.info(msg.format(args: _*))
-  def logWarn(msg: String, args: Any*) = log.warn(msg.format(args: _*))
-  def logError(msg: String, args: Any*) = log.error(msg.format(args: _*))
-  def logWarnException(msg: String, t: Throwable, args: Any*) = log.warn(msg.format(args: _*), t)
-  def logErrorException(msg: String, t: Throwable, args: Any*) = log.error(msg.format(args: _*), t)
+  def logDebug(msg: String, args: Any*): Unit = log.debug(msg.format(args *))
+  def logInfo(msg: String, args: Any*): Unit = log.info(msg.format(args*))
+  def logWarn(msg: String, args: Any*): Unit = log.warn(msg.format(args*))
+  def logError(msg: String, args: Any*): Unit = log.error(msg.format(args*))
+  def logWarnException(msg: String, t: Throwable, args: Any*): Unit = log.warn(msg.format(args*), t)
+  def logErrorException(msg: String, t: Throwable, args: Any*): Unit = log.error(msg.format(args*), t)
 
-  val onServerStarting = Event[FMLServerStartingEvent]
-  val onServerStopping = Event[FMLServerStoppingEvent]
+  val onServerStarting: Event1[FMLServerStartingEvent] = Event[FMLServerStartingEvent]
+  val onServerStopping: Event1[FMLServerStoppingEvent] = Event[FMLServerStoppingEvent]
 
   @EventHandler
   def preInit(ev: FMLPreInitializationEvent): Unit = {
     log = ev.getModLog
-    log.info("bdlib {{ mod_version }} loaded")
-    log.debug("List of loaded APIs: " + ApiReporter.APIs)
+    log.info("bdlib {} loaded", Reference.Version)
+    log.debug("List of loaded APIs: {}", ApiReporter.APIs)
     FMLCommonHandler.instance().registerCrashCallable(ApiReporter)
     NetHandler.init()
     CapAdapters.init()

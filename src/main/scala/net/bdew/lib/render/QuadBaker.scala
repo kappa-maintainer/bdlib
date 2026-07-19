@@ -46,7 +46,7 @@ class QuadBaker(format: VertexFormat) {
 
 object QuadBaker {
   private lazy val normals = EnumFacing.values().map(f => {
-    f -> Array[Float](f.getXOffset, f.getYOffset, f.getZOffset, 0)
+    f -> Array[Float](f.getXOffset.toFloat, f.getYOffset.toFloat, f.getZOffset.toFloat, 0)
   }).toMap
 }
 

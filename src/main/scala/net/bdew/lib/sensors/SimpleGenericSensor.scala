@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-abstract class SimpleGenericParameter(system: SensorSystem[_, _]) extends GenericSensorParameter(system) {
+abstract class SimpleGenericParameter(system: SensorSystem[?, ?]) extends GenericSensorParameter(system) {
   @SideOnly(Side.CLIENT)
   def texture: Texture
 

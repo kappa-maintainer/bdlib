@@ -59,7 +59,7 @@ object CommandOreDistribution extends CommandBase {
     val toFile = flags.contains("--file")
 
     CommandBase.notifyCommandListener(sender, this, "bdlib.oredistribution.start1",
-      Array[Integer](startX - radius, minY, startZ - radius, startX + radius, maxY, startZ + radius, world.provider.getDimension): _*)
+      Array[Integer](startX - radius, minY, startZ - radius, startX + radius, maxY, startZ + radius, world.provider.getDimension)*)
 
     CommandBase.notifyCommandListener(sender, this, "bdlib.oredistribution.start2")
 
@@ -79,7 +79,7 @@ object CommandOreDistribution extends CommandBase {
     val kinds = mutable.Map.empty[String, Set[(Item, Int)]].withDefaultValue(Set.empty)
 
     for {
-      bp <- new BlockPos(startX - radius, minY, startZ - radius) to new BlockPos(startX + radius, maxY, startZ + radius)
+      bp <- new BlockPos(startX - radius, minY, startZ - radius) `to` new BlockPos(startX + radius, maxY, startZ + radius)
       if !world.isAirBlock(bp)
     } {
       val state = world.getBlockState(bp)

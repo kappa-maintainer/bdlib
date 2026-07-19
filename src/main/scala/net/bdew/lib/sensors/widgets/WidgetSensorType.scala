@@ -15,7 +15,7 @@ import net.bdew.lib.sensors.GenericSensorType
 
 import scala.collection.mutable
 
-class WidgetSensorType[T](val p: Point, sensor: => GenericSensorType[T, _], obj: => Option[T]) extends Widget {
+class WidgetSensorType[T](val p: Point, sensor: => GenericSensorType[T, ?], obj: => Option[T]) extends Widget {
   override val rect = new Rect(p, 16, 16)
 
   override def handleTooltip(p: Point, tip: mutable.ListBuffer[String]) =

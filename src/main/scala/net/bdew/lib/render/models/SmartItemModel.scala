@@ -43,7 +43,7 @@ trait SmartItemModel extends IBakedModel {
     override def getQuads(state: IBlockState, side: EnumFacing, rand: Long): util.List[BakedQuad] = {
       getItemQuads(stack, side, mode, rand)
     }
-    override def handlePerspective(cameraTransformType: TransformType): Pair[_ <: IBakedModel, Matrix4f] = {
+    override def handlePerspective(cameraTransformType: TransformType): Pair[? <: IBakedModel, Matrix4f] = {
       val ret = super.handlePerspective(cameraTransformType)
       if (ret != null && ret.getLeft == this)
         Pair.of(new ItemModel(stack, cameraTransformType), ret.getRight)

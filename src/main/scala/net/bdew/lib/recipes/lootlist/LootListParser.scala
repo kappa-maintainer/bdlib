@@ -20,7 +20,7 @@ import net.bdew.lib.recipes.gencfg.GenericConfigParser
   */
 trait LootListParser extends GenericConfigParser {
   def dropsEntry = (decimalNumber <~ "%") ~ spec ^^ { case n ~ s => (n.toDouble, s) }
-  def ceDrops = "DropsList" ~> "(" ~> dropsEntry.* <~ ")" ^^ EntryLootList
+  def ceDrops = "DropsList" ~> "(" ~> dropsEntry.* <~ ")" ^^ EntryLootList.apply
   override def cfgValue = ceDrops | super.cfgValue
 }
 

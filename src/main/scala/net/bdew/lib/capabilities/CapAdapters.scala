@@ -42,7 +42,7 @@ object CapAdapters {
       adapters.find(_.canWrap(stack)).flatMap(_.wrap(stack))
   }
 
-  var registry = Map.empty[Capability[_], Adapters[_]]
+  var registry = Map.empty[Capability[?], Adapters[?]]
 
   def add[T](cap: Capability[T], adapter: CapAdapter[T]): Unit = {
     if (!registry.isDefinedAt(cap)) registry += cap -> new Adapters[T]

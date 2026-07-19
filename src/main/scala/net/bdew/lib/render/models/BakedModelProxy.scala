@@ -35,6 +35,6 @@ class BakedModelProxy(base: IBakedModel) extends IBakedModel {
   //noinspection ScalaDeprecation
   override def getItemCameraTransforms: ItemCameraTransforms = base.getItemCameraTransforms
 
-  override def handlePerspective(cameraTransformType: TransformType): Pair[_ <: IBakedModel, Matrix4f] =
+  override def handlePerspective(cameraTransformType: TransformType): Pair[? <: IBakedModel, Matrix4f] =
     Pair.of(this, base.handlePerspective(cameraTransformType).getRight)
 }

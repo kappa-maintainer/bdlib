@@ -30,7 +30,7 @@ object FluidResourceHelper extends ResourceHelper[FluidResource]("fluid") {
   override def loadFromNBT(tag: NBTTagCompound) = {
     if (tag.hasKey("fluid")) {
       val fName = tag.getString("fluid")
-      Option(FluidRegistry.getFluid(fName)) map FluidResource
+      Option(FluidRegistry.getFluid(fName)).map(FluidResource.apply)
     } else None
   }
   override def saveToNBT(tag: NBTTagCompound, r: FluidResource): Unit = {

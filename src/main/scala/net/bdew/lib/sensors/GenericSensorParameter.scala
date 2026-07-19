@@ -11,7 +11,7 @@ package net.bdew.lib.sensors
 
 import net.bdew.lib.Misc
 
-abstract class GenericSensorParameter(system: SensorSystem[_, _]) {
+abstract class GenericSensorParameter(system: SensorSystem[?, ?]) {
   val uid: String
 
   def localizedName = Misc.toLocal(system.localizationPrefix + ".param." + uid)

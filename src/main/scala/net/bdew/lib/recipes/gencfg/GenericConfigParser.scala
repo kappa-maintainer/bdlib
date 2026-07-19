@@ -21,9 +21,9 @@ trait GenericConfigParser extends RecipeParser {
       | ("-" ~> decimalNumber) ^^ (-_.toDouble)
     )
 
-  def cvNum = signedNumber ^^ EntryDouble
-  def cvStr = str ^^ EntryStr
-  def cvNumList = "=" ~> "{" ~> signedNumber.* <~ "}" ^^ EntryNumList
+  def cvNum = signedNumber ^^ EntryDouble.apply
+  def cvStr = str ^^ EntryStr.apply
+  def cvNumList = "=" ~> "{" ~> signedNumber.* <~ "}" ^^ EntryNumList.apply
 
   def cfgValue = cvNum | cvStr | cvNumList
 

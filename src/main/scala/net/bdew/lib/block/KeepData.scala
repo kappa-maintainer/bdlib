@@ -29,7 +29,7 @@ import net.minecraft.world.{IBlockAccess, World}
   * Must have a TileEntity that extends TileKeepData
   */
 trait BlockKeepData extends Block with HasItemBlock {
-  this: HasTE[_ <: TileKeepData] =>
+  this: HasTE[? <: TileKeepData] =>
 
   override val itemBlockInstance: ItemBlock = new ItemBlockKeepData(this)
 

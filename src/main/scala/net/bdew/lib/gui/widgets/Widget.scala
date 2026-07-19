@@ -15,7 +15,7 @@ import scala.collection.mutable
 
 trait BaseWidget {
   val rect: Rect
-  var parent: WidgetContainer = _
+  var parent: WidgetContainer = scala.compiletime.uninitialized
   def init(p: WidgetContainer) = parent = p
   def handleTooltip(p: Point, tip: mutable.ListBuffer[String]): Unit
   def mouseClicked(p: Point, button: Int): Unit

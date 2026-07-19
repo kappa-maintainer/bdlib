@@ -25,7 +25,7 @@ abstract class BaseScreen(cont: Container, xSz: Int, ySz: Int) extends GuiContai
 
   val background: Texture
 
-  def rect = new Rect(guiLeft, guiTop, xSize, ySize)
+  def rect = new Rect(guiLeft.toFloat, guiTop.toFloat, xSize.toFloat, ySize.toFloat)
 
   def getFontRenderer = Client.fontRenderer
   def getZLevel = zLevel
@@ -41,7 +41,7 @@ abstract class BaseScreen(cont: Container, xSz: Int, ySz: Int) extends GuiContai
 
   protected override def mouseClicked(x: Int, y: Int, bt: Int): Unit = {
     super.mouseClicked(x, y, bt)
-    widgets.mouseClicked(Point(x, y) - rect.origin, bt)
+    widgets.mouseClicked(Point(x.toFloat, y.toFloat) - rect.origin, bt)
   }
 
   protected override def keyTyped(c: Char, i: Int) =
@@ -56,7 +56,7 @@ abstract class BaseScreen(cont: Container, xSz: Int, ySz: Int) extends GuiContai
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
     GL11.glEnable(GL11.GL_BLEND)
     GL11.glColor4f(1, 1, 1, 1)
-    widgets.draw(Point(x, y) - rect.origin, parialFrame.value)
+    widgets.draw(Point(x.toFloat, y.toFloat) - rect.origin, parialFrame.value)
     GL11.glPopAttrib()
   }
 
@@ -69,7 +69,7 @@ abstract class BaseScreen(cont: Container, xSz: Int, ySz: Int) extends GuiContai
 
     val tip = mutable.ListBuffer.empty[String]
 
-    widgets.handleTooltip(Point(x, y) - rect.origin, tip)
+    widgets.handleTooltip(Point(x.toFloat, y.toFloat) - rect.origin, tip)
 
     import scala.jdk.CollectionConverters._
 
@@ -85,7 +85,7 @@ abstract class BaseScreen(cont: Container, xSz: Int, ySz: Int) extends GuiContai
 
     GL11.glPushMatrix()
     GL11.glTranslatef(rect.x, rect.y, 0)
-    widgets.drawBackground(Point(x, y) - rect.origin)
+    widgets.drawBackground(Point(x.toFloat, y.toFloat) - rect.origin)
     GL11.glPopMatrix()
   }
 }

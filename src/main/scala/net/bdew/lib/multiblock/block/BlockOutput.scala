@@ -19,12 +19,12 @@ import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.property.IExtendedBlockState
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-trait BlockOutput[T <: TileOutput[_]] extends BlockModule[T] {
+trait BlockOutput[T <: TileOutput[?]] extends BlockModule[T] {
   override def getUnlistedProperties = super.getUnlistedProperties :+ OutputFaceProperty
 
   override def getExtendedStateFromTE(state: IExtendedBlockState, world: IBlockAccess, pos: BlockPos, te: T): IExtendedBlockState = {
     val faces = for {
-      core <- te.getCore.toIterable
+      core <- te.getCore.iterator
       face <- EnumFacing.values()
       output <- core.outputFaces.get(BlockFace(pos, face))
     } yield face -> output

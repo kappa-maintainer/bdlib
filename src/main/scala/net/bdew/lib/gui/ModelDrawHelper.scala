@@ -70,7 +70,7 @@ object ModelDrawHelper {
         GL11.glRotatef(90, 1, 0, 0)
       case EnumFacing.DOWN =>
         GL11.glRotatef(270, 1, 0, 0)
-      case _ =>
+      case null =>
     }
 
     // And go back to corner
