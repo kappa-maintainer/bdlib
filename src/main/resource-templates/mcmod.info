@@ -13,8 +13,7 @@
   "screenshots": [],
   "parent": "",
   "requiredMods": [
-    "cleanroom@[0.5.17-alpha,)",
-    "scalar@[1.0.0,)"
+    "cleanroom@[0.5.17-alpha,)"
   ],
   "dependencies": [],
   "dependants": [],
