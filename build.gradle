@@ -129,21 +129,23 @@ tasks.named('remapJar').configure {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = 'outlands'
+            url = 'https://maven.outlands.top/releases'
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
     publications {
         mavenJava(MavenPublication) {
             from components.java
             artifact tasks.named('remapJar').get()
+            artifact sourcesJar
             groupId = root_package
             artifactId = mod_id
-        }
-    }
-    if (publish_to_maven.toBoolean()) {
-        repositories {
-            maven {
-                name = maven_name.replaceAll('\\s', '')
-                url = maven_url
-                credentials(PasswordCredentials)
-            }
         }
     }
 }
