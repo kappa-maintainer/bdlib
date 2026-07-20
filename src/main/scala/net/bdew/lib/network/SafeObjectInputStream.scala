@@ -47,8 +47,7 @@ object SafeObjectInputStream {
     "net.bdew.ae2stuff.items.visualiser.VisualisationModes$",
     "net.bdew.ae2stuff.network.MsgSetLock",
     "net.bdew.ae2stuff.network.MsgSetRecipe",
-    "net.bdew.ae2stuff.network.MsgSetRecipe2",
-    "net.bdew.ae2stuff.network.MsgSetRecipe3",
+    "net.bdew.ae2stuff.network.MsgAdvWirelessKitKeybind",
     "net.bdew.ae2stuff.network.MsgVisualisationData",
     "net.bdew.ae2stuff.network.MsgVisualisationMode",
 
