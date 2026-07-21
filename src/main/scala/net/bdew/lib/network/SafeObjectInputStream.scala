@@ -1,8 +1,10 @@
 package net.bdew.lib.network
 
 import net.bdew.lib.BdLib
+import net.minecraftforge.fml.common.{Loader, LoaderState}
 
 import java.io.{InputStream, InvalidClassException, ObjectInputStream, ObjectStreamClass}
+import scala.collection.mutable
 
 class SafeObjectInputStream(is: InputStream) extends ObjectInputStream(is) {
   override def resolveClass(desc: ObjectStreamClass): Class[?] = {
@@ -16,7 +18,14 @@ class SafeObjectInputStream(is: InputStream) extends ObjectInputStream(is) {
 }
 
 object SafeObjectInputStream {
-  private val validClasses: Set[String] = Set(
+  
+  def register(clazz: Class[?]): Unit = {
+    if (Loader.instance().getLoaderState == LoaderState.PREINITIALIZATION)
+      BdLib.logInfo("Registering class {} to serialization white list", clazz)
+      validClasses.add(clazz.getName)
+  }
+  
+  private val validClasses: mutable.Set[String] = mutable.Set(
     "scala.Enumeration",
     "scala.Enumeration$Val",
     "scala.Enumeration$Value",
