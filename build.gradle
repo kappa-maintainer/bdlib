@@ -39,7 +39,7 @@ unimined.minecraft {
     }
 
     cleanroom {
-        loader '0.5.17-alpha'
+        loader '0.6.2-alpha'
         runs.all {
             args += ['--username', minecraft_username]
             def trimmedJvmArgs = extra_jvm_args?.trim()
@@ -71,7 +71,6 @@ repositories {
 
 dependencies {
     implementation 'org.scala-lang.modules:scala-parser-combinators_3:2.4.0'
-    compileOnly 'com.cleanroommc:sponge-mixin:0.20.13+mixin.0.8.7'
     if (enable_lwjglx.toBoolean()) {
         compileOnly 'com.cleanroommc:lwjglx:1.0.0'
     }

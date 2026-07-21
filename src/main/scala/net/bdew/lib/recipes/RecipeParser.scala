@@ -10,15 +10,15 @@
 package net.bdew.lib.recipes
 
 import java.io.Reader
-
 import net.minecraftforge.oredict.OreDictionary
-import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.text.StringEscapeUtils
 
-import scala.util.parsing.combinator._
+import scala.util.matching.Regex
+import scala.util.parsing.combinator.*
 
 class RecipeParser extends JavaTokenParsers {
   // Allows C-style comments
-  protected override val whiteSpace =
+  protected override val whiteSpace: Regex =
     """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
 
   // Simple integer without signs
@@ -46,7 +46,7 @@ class RecipeParser extends JavaTokenParsers {
   def unescapeStr = stringLiteral ^^ (x => StringEscapeUtils.unescapeJava(x.substring(1, x.length - 1)))
 
   // Identifier or quoted string
-  def str = ident | unescapeStr
+  def str: Parser[String] = ident | unescapeStr
 
   // === Item references ===
 
@@ -63,7 +63,7 @@ class RecipeParser extends JavaTokenParsers {
     case (p ~ cl) ~ n ~ m => StackGetter(p.mkString("."), cl, n, m)
   }
 
-  def spec = specBlock | specItem | specOD | specGetter | specReflect | specMacro
+  def spec: Parser[StackRef] = specBlock | specItem | specOD | specGetter | specReflect | specMacro
 
   // Spec with possible number of items
   def specWithCount = spec ~ ("*" ~> int).?
@@ -152,8 +152,8 @@ class RecipeParser extends JavaTokenParsers {
       | conditionConfig
     )
 
-  def configStatements = configStatement.*
-  def recipeStatements = recipeStatement.*
+  def configStatements: Parser[List[ConfigStatement]] = configStatement.*
+  def recipeStatements: Parser[List[RecipeStatement]] = recipeStatement.*
 
   def doParse(r: Reader): List[ConfigStatement] = {
     parseAll(configStatements, r) match {

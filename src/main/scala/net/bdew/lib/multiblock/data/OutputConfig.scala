@@ -23,14 +23,16 @@ abstract class OutputConfig {
 class OutputConfigInvalid extends OutputConfig {
   override val id: String = "invalid"
   def read(t: NBTTagCompound): Unit = {}
-  def write(t: NBTTagCompound) = throw new NotImplementedException
-  def handleConfigPacket(m: MsgOutputCfg) = throw new NotImplementedException
+  def write(t: NBTTagCompound): Unit = throw new NotImplementedException
+  def handleConfigPacket(m: MsgOutputCfg): Unit = throw new NotImplementedException
 }
 
 object OutputConfigManager {
   var loaders = Map.empty[String, () => OutputConfig]
-  def register(id: String, loader: () => OutputConfig) = loaders += id -> loader
-  def create(id: String) = loaders.get(id).map(_.apply()).getOrElse(new OutputConfigInvalid)
+
+  def register(id: String, loader: () => OutputConfig): Unit = loaders += id -> loader
+
+  def create(id: String): OutputConfig = loaders.get(id).map(_.apply()).getOrElse(new OutputConfigInvalid)
 
   register("fluid", () => new OutputConfigFluid)
   register("power", () => new OutputConfigPower)
